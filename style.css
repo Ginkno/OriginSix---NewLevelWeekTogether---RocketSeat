@@ -1,0 +1,783 @@
+/* RESETAR A FORMATAÇÃO PADRÃO QUE O NAVEGADOR DÁ PARA A PAGINA */
+/* COMO FAZER ISSO? */
+/* UTILIZAMOS o SELETOR UNIVERSAL (*) -- PEGA TODAS AS TAGS DA PAGINA */
+
+/* ----------------- RESET DE PAGINA ---------------*/
+
+* {
+  margin: 0; /* margem zerada para top, bottom, left and right */
+  padding: 0; /* lembrar de margin, border, padding, height e width */
+  box-sizing: border-box; /* inclui na box model a borda na conta de espaçamento */
+  text-decoration: none;
+  
+}
+
+/* lembrar que:
+  MARGIN - a distância da caixa do elemento para o elemento no qual ele está incluído.
+  BORDER - a borda da caixa, que pode ser fina ou grossa.
+  PADDING - a distância do conteúdo da caixa para a borda.
+  CONTENT - o conteúdo da caixa propriamente dito.
+
+  quando falamos em width (largura) e height (altura) e alteramos esses elementos no CSS, estamos alterando, especificamente, o CONTENT da caixa.
+  */
+
+ul {
+  list-style: none; 
+}
+
+img {
+  width: 100%; /* adapta a imagem para cobrir toda largura possível da página */
+  height: auto; /* navegador organiza a altura como achar melhor,
+  deixando a imagem responsiva */ 
+}
+
+/* ----------------- VARIAVEIS ---------------*/ 
+
+:root {
+  --header-height: 4.5rem;
+  font-size: 100%; /* 100% de 16px, que é o tamanho padrão de fonte que o navegador utilizará para carregar a página */
+
+  /* colors */  
+  --color: green; /* uma variavel é um valor que podemos utilizar em outros elemenetos e que, quando alterados, são também alterados nos elementos aos quais eles fazem parte. Neste caso, colocamos a cor red no
+  elemento root pois a variavel, assim, estará disponível para ser utilizada
+  por todos os elementos do html, pois o root é a raiz do documento */
+  /* colors */
+  --hue: 452;
+  /* HSL color mode */
+  --base-color: hsl(var(--hue) 37% 57%);
+  --base-color-second: hsl(var(--hue) 65% 88%);
+  --base-color-alt: hsl(var(--hue) 57% 53%);
+  --title-color: hsl(var(--hue) 41% 10%);
+  --text-color: hsl(0 0% 46%);
+  --text-color-light: hsl(0 0% 98%);
+  --body-color: hsl(0 0% 98%);
+
+  /* fonts */
+  --title-font-size: 1.875rem;
+  --subtitle-font-size: 1rem;
+  --title-font: "Poppins", sans-serif;
+  --body-font: "DM Sans", sans-serif;
+}
+
+/* ----------------- BASE ---------------*/
+
+html {
+  scroll-behavior: smooth; /* quando clica em link no menu, scrolla suavemente a pagina para o link escolhido */
+}
+
+body {
+  font: 400 1.5rem var(--body-font);
+  color: var(--text-color); /* variavel para cor do texto do body */
+  background: var(--body-color); /*variavel de cor do background do body */
+  -webkit-font-smoothing: antialiased; /* deixa a fonte mais suave */
+} /* modelo de construção da font: peso da fonte, tamanho em rem e tipo */
+
+.title {
+  font: 700 1.875rem var(--title-font);
+  color: var(--title-color);
+  -webkit-font-smoothing: auto; /* ajuste de suavidade automatico */
+}
+
+.button {
+  background-color: var(--base-color); /* cor do back do botão */
+  color: var(--text-color-light); /* cor do texto do botão */
+  height: 3.5rem; /* se colocamos apenas a height, nada acontece,
+  pois a classe button está em um elemento nav, que por padrão, possui um atributo display como INLINE, impedindo alterações de formato.
+  É necessário mudar para block, inline-block ou inline-flex para alterar */
+  display: inline-flex;
+  align-items: center; /* centraliza o texto no botão */
+  padding: 0 2rem; /* espaçamento do texto nas laterais do botão */
+  border-radius: 0.25rem; /* suavização das bordas do botão */
+  font: 500 1rem var(--title-font); /* apenas para garantir a formtação, pois está já foi declarada no body */
+  transition: background 0.3s; /* transição da propriedade hover. Poderia ser declarada na propriedade hover diretamente também. */
+}
+
+.button:hover {
+  /* propriedade para fazer alguma alteração quando o mouse passar por cima do elemento indicado */
+  background: var(--base-color-alt);
+}
+
+.divider-1 {
+  height: 2px;
+  background: linear-gradient(
+    270deg, 
+    hsl(var(--hue), 36%, 57%, 1) 0%, 
+    hsl(var(--hue), 65%, 88%, 0.34) 100%
+  ); /* se colocar apenas a cor do background sem a altura, o divider não aparecerá */
+}
+
+
+.divider-2 { /* mesmo divisor 1, só que invertido */
+  height: 2px;
+  background: linear-gradient(
+    270deg, 
+    hsl(var(--hue), 65%, 88%, 0.34),
+    hsl(var(--hue), 36%, 57%, 1) 
+  ); /* se colocar apenas a cor do background sem a altura, o divider não aparecerá */
+}
+
+
+/* ----------------- LAYOUT ---------------*/
+
+#header {
+  border-bottom: 1px solid #e4e4e4; /* adiciona a linha abaixo do header,
+  que da a sensação de sobreposição */
+  margin-bottom: 2rem; /* ele afasta a box header do body com o valor margin */
+  display: flex; /* sem usar o display-flex, o menu direito não aparecerá, pois nao estará flexibilizado */
+ 
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: var(--body-color); /* a partir do width até 
+  o background, utilizamos estas propriedades para que a barra de nav se sobreponha aos outros elementos do body */
+  transition: 0.4s;
+}  
+
+
+
+#header.scroll {
+  background: var(--base-color);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+  transition: 0.4s; /* box shadow
+  cria uma sombra abaixo da caixa que: 
+  - vem e vai horizontalmente,
+  - vem e vai verticalmente,
+  - desfoco
+  - propagação do desfoco
+  - cor */
+}
+
+#header.scroll .logo span {
+  color: white;
+}
+
+#header.scroll .icon-menu {
+  color: white;
+}
+
+main {
+  margin-top: calc(var(--header-height) + 2rem); /* margem dada ao main
+  para que ele fique mais afastado do header, cmo no projeto original */
+}
+
+/* ----------------- NAVIGATION ----------------*/
+
+nav {
+  height: var(--header-height); /* rem é unidade responsiva da página */
+  /* os pixels (px) não são responsivos, se você os utiliza, eles não
+  vão utilizar a font-size do root como referência */
+  /* o rem é unidade que utiliza como referencia a font size do root element */
+  /* se mudar o valor de fonte do root, todos os valores rem atualizam */
+  display: flex; /* elementos filhos um ao lado do outro */
+  align-items: center; /* os itens se centralizam ao meio da navbox/headerbox. outras configs: flex-end, flex-start, etc */
+  justify-content: space-between; /* justifica o conteúdo, separando os elementos em opostos na pagina (um no left e outro no right). Justify-content só pode ser utilizado com display: flex */
+  width: 100%; /* O header estava com largura de 100%, mas a nav bar não. Se não for adicionado aqui a width de 100%, o menu ficara colado ao lado da logo */
+} 
+
+nav ul.grid {
+  gap: 4rem;
+}
+
+nav ul li {
+  text-align: center;
+}
+
+nav ul li a {
+  position: relative;
+  transition: color 0.2s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: var(--base-color) /* ao passar o mouse, muda a cor da palavra do link */
+}
+
+nav ul li a::after { /* configura a linha abaixo da palavra do link, com a mesma cor desta */
+  content: ""; 
+  width: 0%;/* sem largura */
+  height: 2px; /* 2 px de altura */
+  background: var(--base-color); /* mesma cor */
+
+  position: absolute; /* posição absoluta relativa ao link (nav ul li a) */
+  left: 0; /* posição de origem x, em relação ao link (abs-relative) */
+  bottom: -1.5rem; /*posição de origem y, em relação ao link (abs-rel) */
+}
+
+nav ul li a:hover::after { /* ao passar o mouse, a largura vai ao max da caixa nav */
+  width: 100%; 
+}
+
+nav .menu ul li a.title {
+  font: 400 1rem var(--body-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+nav .menu ul li a.title.active {
+  font-weight: 700;
+}
+
+nav .menu ul { /* feito para que o menu não pisque quando feche */
+  display: none;
+}
+
+nav.show .menu ul { /* para aparecer em forma de grid */
+  display: grid;
+}
+
+nav .menu { /* config do menu, escondido até o momento que seja clicado */
+  opacity: 0;
+  visibility: hidden;
+  top: -20rem;
+  transition: 0.2s;
+}
+
+nav.show .menu { /* .show fica colado ao nav, para que o codigo entenda que a classe show será incluída diretamente ao atributo nav. Se dessemos um espaço entre eles, o codigo iria apenas procurar a classe show dentro do atributo nav. O atributo show ira mudar a classe menu, fazendo ela aparecer na pagina */
+  opacity: 1;
+  visibility: visible;
+
+  background: var(--body-color);
+
+  height: 100vh;
+  width: 100vw; /* apenas com esses atributos, não cobre a pagina inteira,
+  pois a caixa do menu está em conflito com as demais caixas do codigo,
+  (header, container, grid) */
+
+  position: fixed;
+
+  top: 0;
+  left: 0; /* quando fixamos a posição e setamos o top e left, agora o menu ira cobrir toda a pagina */
+
+  display: grid;
+  place-content: center;
+}
+
+
+nav.show ul.grid { /* espaçamento entre links */
+  gap: 4rem;
+}
+
+/* ------ TOGGLE MENU/ ABRIR E FECHAR MENU ----- */
+
+nav .icon-close { /*config do botao de fechar menu. O menu está escondido */
+  visibility: hidden;
+  opacity: 0;
+
+  position: absolute;
+  top: -1.5rem; /*posição no y, acima da pagina, nao visivel */
+  right: 1.5rem; /*posição relativa x, em relação aos links (nav ul li a)*/
+  
+  /* transição */
+
+  transition: 0.2s;
+
+}
+
+nav.show div.icon-close { /*quando clica no botao de menu, o botao aparece e vem de cima*/
+  visibility: visible;
+  opacity: 1;
+  top: 1.5rem;
+}
+
+.toggle { /* config do botão em si */
+  color: var(--base-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+
+/* ----------------------- LOGO ------------------------------*/
+
+.logo {
+  font: 700 1.875rem 'Poppins', sans-serif;
+  color: var(--title-color);
+
+}
+
+.logo span { /* muda a cor da segunda palavra da logo */
+  color: var(--base-color);
+}
+
+.logo-alt span {
+  color: var(--body-color);
+}
+
+.container {
+  /* retirando o width de container, a pagina fica sem barra horizontal */
+  margin-left: 1.5rem; /* da espaçamento entre a margem direita e esquerda de 1.5rem */
+  margin-right: 1.5rem;
+  /* margin: 0 auto; -- coloca margem 0 no top e bottom e auto no left e right, dando liberdade para a página organizar o conteudo entre a esquerda e a direita */
+}
+
+.grid {
+  display: grid;
+  gap: 2rem; /* espaço padrão entre os elementos da section */
+
+}
+
+.section {
+  padding: calc(5rem + var(--header-height)) 0; /* aqui, é feito um afasto de padding para a classe
+  section, que será incorporada a todas as sections para padronizar a
+  pagina html */
+}
+
+.section .title {
+  margin-bottom: 1rem;
+}
+
+.section .subtitle {
+  font-size: var(--subtitle-font-size);
+}
+
+.section header {
+  margin-bottom:  4rem;
+}
+
+.section header strong {
+  color: var(--base-color);
+}
+
+/* ----------------- HOME ---------------*/
+
+#home {
+  overflow: hidden;
+}
+
+#home .container {
+  margin: 0; /* aqui, colocamos margem 0 no container, pois a imagem fica colada na borda da pagina, mas o texto não, então vamos zerar a imagem para depois ajustar o texto */
+}
+
+#home .text {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  /* valores retirados da class container, que são referência */
+  text-align: center; /* centraliza o texto do home */
+}
+
+#home .text h1 {
+  margin-bottom: 1rem;
+}
+
+#home .text p {
+  margin-bottom: 2rem; /* margem entre o paragrafo e o botão */
+  max-width: 100%; /* utilizamos para limitar a barra horizontal,
+  pois não há conteúdo nas laterais da pagina */
+}
+
+#home .image img {
+  position: relative; /* relativiza a posição do elemento, no caso a imagem , para a posicionarmos em relação ao elemento pai*/
+  right: 2.93rem; /* posiciona a img com margem direita de 5rem */
+}
+
+#home .image {
+  position: relative;
+}
+
+#home .image::before { /* o ::before cria um pseudo element em CSS, ou seja, criamos, diretamente do CSS, um elemento fantasma. Servirá para incluirmos uma imagem anterior a imagem principal (background verde). before porque cria anterior ao conteúdo; se for after, após o conteúdo (por cima) */
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: var(--base-color-second);
+  position: absolute;
+  z-index: 0;
+  top: -16.8%; /* calcula-se a margem top em relação ao container para saber quanto vai diminuir */
+  left: 16.7%;
+}
+
+#about .image img, /* pode utilizar a virgula e fazer alterações para varios elementos ao mesmo tempo */
+#about .image::before {
+  border-radius: 0.25rem;
+}
+
+/* ------------------------ ABOUT --------------------------*/
+
+#about {
+  background: white;
+}
+
+#about .container {
+  margin: 0; /* aqui, colocamos margem 0 no container, pois a imagem fica colada na borda da pagina, mas o texto não, então vamos zerar a imagem para depois ajustar o texto */
+}
+
+#about .text {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  /* valores retirados da class container, que são referência */
+  /* text-align: center; */ /* centraliza o texto do home, mas estamos na seção about, que não é alinhada ao centro */
+}
+
+#about .text h1 {
+  margin-bottom: 1rem;
+}
+
+#about .text p {
+  margin-bottom: 2rem; /* margem entre o paragrafo e o botão */
+  max-width: 100%; /* utilizamos para limitar a barra horizontal,
+  pois não há conteúdo nas laterais da pagina */
+}
+
+#about .image img {
+  position: relative; /* relativiza a posição do elemento, no caso a imagem , para a posicionarmos em relação ao elemento pai*/
+  /* right: 2.93rem; */ /* posiciona a img com margem direita de 5rem,
+  mas na seção about é retirada */
+}
+
+#about .image {
+  position: relative;
+}
+
+#about .image::before { /* o ::before cria um pseudo element em CSS, ou seja, criamos, diretamente do CSS, um elemento fantasma. Servirá para incluirmos uma imagem anterior a imagem principal (quadrado verde). before porque cria anterior ao conteúdo; se for after, após o conteúdo (por cima) */
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: var(--base-color-second);
+  position: absolute;
+  z-index: 0;
+  top: -8.3%; /* calcula-se a margem top em relação ao container para saber quanto vai diminuir */
+  left: -33%;
+}
+
+#about .image img, /* pode utilizar a virgula e fazer alterações para varios elementos ao mesmo tempo */
+#about .image::before {
+  border-radius: 0.25rem;
+}
+
+/* ------------------------ SERVICES ----------------------- */
+
+.cards.grid {
+  gap: 1.5rem; /*espaçamento entre cartões */
+}
+
+.card {
+  padding: 3.635rem 2rem; /*espaçamento do conteudo no cartão --top-bottom e right-left */
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08); /*cria cartão do ponto 0 em x e 0 em y, com desfoco de 12px, sem propagação de desfoco e de cor preta. Posicionamento leva em consideração o gap do grid e o container, que contém o card. */
+  border-bottom: 0.25rem solid var(--base-color); /* criar borda no card,
+  com a base color */
+  border-radius: .25rem .25rem 0 0; /* adiciona ponta da borda suave em cima, mas não em baixo (top, left, bottom, right) */
+  text-align: center;
+}
+
+.card i {
+  display: block;
+  margin-bottom: 1.5rem; /* afasta a caixa de icone do conteudo do card */
+  font-size: 5rem; /* determina o tamanho do icone */
+  color: var(--base-color);
+}
+
+.card .title {
+  font-size: 1.5rem; /* tamanho da fonte do title incluida no card */
+  margin-bottom: 0.75rem; /* distancia do title para o paragrafo p */
+}
+
+/* ----------------------- TESTIMONIALS ------------------------------*/
+
+#testimonials {
+  background: white;
+}
+
+#testimonials .container {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#testimonials header {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  margin-bottom: 0;
+}
+
+#testimonials blockquote {
+  padding: 2rem;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 0.25rem;
+  
+}
+
+#testimonials blockquote p {
+  position: relative; /* posição relativa ao span */
+  text-indent: 1.875rem; /* identação do texto (tab) */
+  margin-bottom: 1.5rem; /* distancia do paragrafo para a img */
+  color: var(--title-color);
+}
+
+#testimonials blockquote p span { /* estabelece a aspas */
+  font: 700 3rem serif; /* as aspas vem nesses termos de fonte */
+  position: absolute; /* posição absolute em relação ao paragrafo */
+  top: -0.375rem; /* posicionamento negativo, para não estar colada no paragrafo */
+  left: -1.875rem;
+  color: var(--base-color);
+}
+
+#testimonials cite {
+  display: flex; /* flexiona a img para fica ao lado do nome */
+  align-items: center; /* alinhas img e texto */
+  font-style: normal;
+}
+
+#testimonials cite img { /* imagem da depoente */
+  width: 2rem; /* tamanho da img em largura e altura */
+  height: 2rem;
+  object-fit: cover; /* fazer com que a img cubra o espaço que ocupa */
+  clip-path: circle(); /* formato em que ela aparece */
+  margin-right: 0.5rem; /* espaço da margem direita da img para o texto */
+}
+
+/* -------------------SWIPER ----------------------- */
+
+.swiper-slide {
+  height: auto;
+  padding: 4rem 1rem;
+}
+
+.swiper-pagination {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.swiper-pagination-bullet {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--base-color);
+}
+
+#contact .grid {
+  gap: 4rem;
+}
+
+#contact .text p {
+  margin-bottom: 2rem;
+}
+
+#contact .button i,
+#contact ul li i {
+  font-size: 1.5rem;
+  margin-right: 0.625rem;
+}
+
+#contact ul.grid {
+  gap: 2rem;
+}
+
+#contact ul li {
+  display: flex;
+  align-items: center;
+}
+
+#contact ul li i {
+  color: var(--base-color);
+}
+
+/* ------------------ FOOTER --------------*/
+
+footer {
+  background: var(--base-color);
+}
+
+footer.section {
+  padding: 4rem 0;
+}
+
+footer .logo {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+/* o display padrão do navegador é o INLINE. No display INLINE, nao ha opção para fazer alteração de margin-bottom e afins, sendo necessário utilizar outro tipo de display. Neste caso, o inline-block. */
+
+footer .brand p {
+  color: var(--text-color-light);
+  margin-bottom: 0.75rem;
+}
+
+footer i {
+  font-size: 1.5rem;
+  color: var(--text-color-light);
+}
+
+/* maneiras de afastar os ícones: 
+--- com grid (adicionando a classe grid na seção, em html)--->
+  footer .social {
+    grid-auto-flow: column;
+    width: fit-content;
+  }
+---- com flex -- >
+  footer .social {
+    display: flex; (um ao lado do outro)
+    gap: 2rem;
+  }
+
+---- com margin-right --->
+  footer .social a {
+    margin-right: 2rem;
+  }
+
+  */
+  
+footer .social a {
+  margin-right: 2rem;
+  transition: .3s;
+  display: inline-block;
+}
+
+
+/* back to top */
+
+.back-to-top {
+  background: var(--text-color);
+  color: var(--base-color);
+
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+
+  padding: 1rem;
+  clip-path: circle();
+
+  font-size: 1.5rem;
+  line-height: 0;
+
+  visibility: hidden;
+  opacity: 0;
+  
+  transition: 0.3s;
+  transform: translateY();
+}
+
+
+.back-to-top.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* RESPONSIVO PARA VARIOS DISPOSITIVO */
+
+
+/* para dispositivos com 1200px pra cima + */
+
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section { /* as seções terão um espaçamento entre elas maior */
+    padding: 10rem 0;
+  }
+
+  .section header,
+  #testimonials header {
+    max-width: 32rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  nav .menu { /* fazer o menu aparecer no header */
+    opacity: 1;
+    visibility: visible;
+    top: 0;
+  }
+
+  nav .menu ul { /* itens do menu lado a lado, com gap de 2rem */
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav .menu ul li a.title {
+    font: 400 1rem var(--body-font);
+  }
+
+  nav .icon-menu {
+    display: none;
+  }
+
+  .button {
+    height: 3.125rem;
+  }
+
+  /* ajustes na home */
+  #home .container {
+    grid-auto-flow: column;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+  
+  #home .image {
+    order: 1;
+  }
+
+  #home .text {
+    order: 0;
+    max-width: 24rem;
+    text-align: left;
+  }
+
+  #header .container {
+    max-width: 1120px;
+    margin: 0 6.572rem;
+  }
+
+  #about .container {
+    grid-auto-flow: column;
+    margin: 0 auto;
+  }
+
+  main {
+    margin-top: var(--header-height);
+  }
+
+  /* services */
+  .cards {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .card {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  #contact .container {
+    grid-auto-flow: column;
+    align-items: center;
+  }
+
+  #contact .text {
+    max-width: 25rem;
+  }
+
+  footer.section {
+    padding: 3.75rem 0;
+  }
+  footer .container {
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer .logo {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 992px) {
+  
+}
+
+@media (min-width: 992px) {
+  :root {
+    --title-font-size: 2.2rem;
+    --subtitle-font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 992px) {
+  
+}
